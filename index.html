@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en" class="hide-scrollbar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mitch Ivin | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles-fix.css">
+  <style>
+    /* Core Variables */
+    :root {
+      --crt-red: rgb(218, 49, 49);
+      --crt-blue: rgb(40, 129, 206);
+      --crt-green: #70ff70; /* Added missing variable */
+      --heading-color: #70ff70;
+      --body-color: #ffffff;
+      --font-primary: 'Wix Madefor Display', sans-serif;
+      --font-size-base: 1rem;
+      --font-size-body: 1.2rem;
+      --line-height-base: 1.2;
+      --transition-base: 0.2s;
+      --bg-terminal: rgba(30, 30, 35, 0.7);
+      --border-color: rgba(120, 120, 180, 0.5);
+    }
+
+    /* Animations */
+    @keyframes blinkTextCursor { 50% { opacity: 0; } }
+    @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
+    @keyframes flicker { 0%, 80% { opacity: 0; } 100% { opacity: 0.1; } }
+
+    /* Global Styles */
+    .hide-scrollbar {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+    html, body {
+      font-size: var(--font-size-body);
+      font-family: var(--font-primary);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      width: 100%;
+      background: black;
+      display: block;
+      overflow-y: auto;
+      cursor: auto;
+      box-sizing: border-box;
+    }
+    
+    main {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      color: var(--body-color);
+      padding: 6vh 0;
+      gap: 3rem;
+      position: relative;
+      z-index: 1;
+      background: rgb(25, 25, 30);
+      text-shadow: 0 0 0.2em currentColor, 1px 1px rgba(255, 0, 255, 0.5), -1px -1px rgba(0, 255, 255, 0.4);
+      box-sizing: border-box;
+    }
+
+    /* Container for consistent horizontal spacing */
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 var(--content-gap);
+      box-sizing: border-box;
+    }
+    
+    /* Header Styles */
+    .header {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 2rem;
+      position: relative;
+    }
+    
+    .name-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+    }
+    
+    .intro-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .intro-wrapper::before {
+      content: '> intro';
+      position: absolute;
+      left: calc(-1 * var(--content-gap));
+      top: 0;
+      color: var(--heading-color);
+      font-size: 0.9rem;
+    }
+
+    /* New header intro container styling */
+    .intro-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 10rem;
+      width: 100%;
+    }
+
+    .intro-label {
+      font-size: 0.9rem;
+      color: var(--heading-color);
+      white-space: nowrap;
+      width: 5rem; /* Adjust this value if needed */
+      align-self: flex-start;
+    }
+
+    .intro-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 0;  /* Remove extra bottom margin for consistent vertical spacing */
+    }
+
+    /* Simulate a single line break between typing and paragraph */
+    .intro-content > p {
+      margin-top: 0.5rem; /* adjust to match the height of a single "enter" */
+    }
+
+    /* Typography */
+    h1 {
+      font-family: var(--font-primary);
+      font-weight: 900;
+      font-size: calc(7rem * 1.5);
+      color: var(--heading-color);
+      margin: 0 0 -12px -12px;
+      padding: 0;
+      text-transform: lowercase;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      display: block;
+      width: fit-content;
+    }
+    
+    h1::after {
+      content: '.';
+      color: var(--body-color);
+      margin-left: 0;
+    }
+
+    .bio-text {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-base);
+      color: var(--body-color);
+      margin: 0;
+      width: 550px;
+      white-space: normal;
+      word-spacing: 0.15em;
+    }
+
+    /* Typing Effect */
+    .typing-container {
+      display: flex;
+      align-items: flex-start; /* Aligns the typing text to the top */
+      height: 2rem;
+      position: relative;
+      margin: 0;
+    }
+    
+    .code {
+      line-height: var(--line-height-base);
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      overflow: visible;
+      color: var(--body-color);
+      font-family: var(--font-primary);
+      font-weight: 400;
+      font-size: var(--font-size-base);
+      min-height: 1rem;
+      word-spacing: 0.15em;
+    }
+    
+    .typing-text { display: inline-block; min-width: 1ch; }
+    .highlight { color: var(--heading-color); }
+    
+    .cursor {
+      display: inline-block;
+      font-size: var(--font-size-base);
+      font-family: var(--font-primary);
+      position: absolute;
+      left: 0;
+      transition: transform 0.1s;
+      animation: blinkTextCursor 500ms infinite normal;
+    }
+
+    /* Project Styles */
+    .projects {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: flex-start;
+      gap: 3rem;
+      margin-top: 3rem; /* Add consistent vertical space above .projects */
+    }
+    
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      width: 100%;
+      padding: 0;
+      max-width: 100%;
+    }
+
+    .project-card {
+      position: relative;
+      width: 100%;
+      padding-top: 125%;
+      background-color: var(--bg-terminal);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: transform var(--transition-base), border-color var(--transition-base);
+      cursor: pointer;
+    }
+
+    .project-card img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background-color: var(--bg-terminal);
+    }
+
+    .project-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--heading-color);
+    }
+
+    /* Terminal Styles */
+    .terminal-container {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      position: relative;
+      overflow: visible;
+      margin: 0 auto;
+    }
+    
+    .terminal-section {
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-terminal);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      padding: 2rem;
+      box-sizing: border-box;
+      overflow: visible;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+    
+    .terminal-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 0 10px 0;
+      margin-bottom: 10px;
+      align-items: center;
+      position: relative;
+    }
+    
+    .terminal-buttons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    
+    .terminal-title {
+      font-size: var(--font-size-base);
+      font-family: var(--font-primary);
+      color: var(--heading-color);
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .terminal-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: visible;
+      padding: 0;
+    }
+    
+    .terminal-content > * + * {
+      margin-top: 2rem;
+    }
+    
+    .heading { color: var(--heading-color); }
+    .body-text { color: var(--body-color); }
+    
+    /* CRT Effects - Consolidated */
+    .crt {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    
+    .crt::before {
+      content: "";
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+    
+    .crt::after {
+      content: "";
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      opacity: 0.3;
+      z-index: 9999;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.1);
+      opacity: 0.3;
+      animation: scanline 6s linear infinite;
+      z-index: 10000;
+      pointer-events: none;
+    }
+    
+    .flicker {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      opacity: 0;
+      animation: flicker 0.3s infinite alternate;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    
+    /* Bio Section */
+    .bio-sections {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 0;
+    }
+    
+    .bio-section p {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-base);
+      color: var(--body-color);
+      margin: 0;
+      width: 550px;
+      white-space: normal;
+      word-spacing: 0.15em;
+    }
+
+    .bio-section p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .skills-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin: 0;
+    }
+    
+    .software-proficiency {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      gap: 2rem;
+      margin: 0;
+    }
+    
+    .terminal-container:nth-child(3) .terminal-content {
+      width: 75%;
+      margin: 0;
+      align-self: flex-start;
+    }
+    
+    /* Buttons - Consolidated */
+    .button-container {
+      width: fit-content;
+      display: block;
+      margin: 0;
+    }
+
+    /* Shared button styles */
+    .resume-button,
+    .email-button {
+      font-family: var(--font-primary);
+      font-size: calc(var(--font-size-base) * 1.1);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 6px 12px;
+      display: inline-block;
+      margin: 0;
+      border: 1px solid var(--heading-color);
+      width: auto;
+    }
+
+    /* Email button specific styling */
+    .email-button {
+      background-color: rgba(60, 120, 60, 0.7);
+      color: var(--body-color);
+    }
+
+    .email-button:hover {
+      background-color: rgba(80, 150, 80, 0.7);
+    }
+
+    /* Resume button specific styling */
+    .resume-button {
+      background-color: var(--bg-terminal);
+      color: var(--heading-color);
+      font-family: var(--font-primary);
+      font-size: calc(var(--font-size-base) * 1.1);
+      border: 1px solid var(--heading-color);
+      border-radius: 6px;
+      padding: 6px 12px;
+      margin: 0;            /* Remove any default margin */
+      line-height: 1;       /* Reset line-height */
+      box-sizing: border-box;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .resume-button:hover {
+      background-color: var(--heading-color);
+      color: var(--bg-terminal);
+    }
+    
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(25, 25, 30, 0.95);
+      display: none;
+      z-index: 2;
+    }
+    
+    .lightbox.active {
+      display: flex;
+      align-items: center;     /* center vertically */
+      justify-content: center; /* center horizontally */
+      padding: 0;              /* remove extra padding */
+    }
+    
+    .lightbox-content {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      display: flex;
+      width: 90%;
+      max-width: 1400px;
+      padding: 2rem;
+      gap: 2rem;
+      max-height: calc(100vh - 16vh);          /* updated to account for 8vh top and bottom */
+      overflow-y: auto;                      /* allow vertical scrolling if needed */
+      margin: 8vh 0;                         /* increased vertical gap */
+      overflow: hidden; /* disable scrollbars */
+    }
+    
+    .lightbox-image {
+      flex: 1;
+    }
+    
+    .lightbox-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      max-width: 100%;
+      max-height: calc(100vh - 16vh - 4rem); /* subtract additional space for padding/margins */
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+    
+    .lightbox-info {
+      flex: 1;
+      color: var (--body-color);
+    }
+    
+    .lightbox-title {
+      color: var(--heading-color);
+      margin-bottom: 1rem;
+      text-shadow: 0 0 0.2em currentColor,
+                 1px 1px rgba(255, 0, 255, 0.5),
+                 -1px -1px rgba(0, 255, 255, 0.4);
+    }
+    
+    .lightbox-close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: none;
+      border: none;
+      color: var(--heading-color);
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .lightbox-description {
+      font-family: var(--font-primary);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-base);
+      color: var(--body-color);
+      margin: 0;
+      white-space: normal;
+      word-spacing: 0.15em;
+    }
+
+    /* Media Queries */
+    @media (max-width: 1024px) {
+      main { 
+        padding: 50px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      h1 {
+        font-size: calc(5rem * 1.5);
+      }
+      .intro-wrapper {
+        margin-left: 100px;
+      }
+      .intro-wrapper::before {
+        left: -100px;
+      }
+      .container {
+        padding: 0 50px;
+      }
+      .intro-wrapper::before,
+      .skills-wrapper::before {
+        left: -50px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      main { 
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      h1 {
+        font-size: calc(3rem * 1.5);
+      }
+      .project-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .intro-wrapper {
+        margin-left: 50px;
+      }
+      .intro-wrapper::before {
+        left: -50px;
+      }
+      .container {
+        padding: 0 20px;
+      }
+    }
+
+    /* Terminal section titles */
+    .h3 {
+      color: var(--heading-color);
+      font-size: 1.8rem;
+      font-family: var(--font-primary);
+      font-weight: 400;
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+      margin: 0;
+      padding: 0;
+    }
+
+    .h3::after {
+      content: '.';
+      color: #fff; /* white color */
+      margin-left: -0.02rem; /* Closer to the terminal title text */
+    }
+
+    /* Project specific styling */
+    .projects .terminal-container:nth-child(2) .bio-sections {
+      width: 60%;
+      margin: 0;
+      text-align: left;
+      gap: 2rem;
+    }
+
+    .projects .terminal-container:nth-child(2) .bio-sections .bio-section p {
+      width: 100%;
+    }
+
+    .projects .terminal-container:nth-child(2) .software-proficiency {
+      width: 60%;
+    }
+
+    .projects .terminal-container:nth-child(2) .software-proficiency img {
+      max-width: 40px;
+    }
+
+    /* Update the skill-item class to match bio-text styling */
+    .skill-item {
+      margin: 0;
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-color);
+      padding: 1rem;
+      text-align: left;
+      border-radius: 6px;
+      color: var(--body-color);
+      transition: all 0.3s ease;
+      font-family: var(--font-primary);
+      font-size: 0.8rem; /* reduced font size */
+      line-height: var(--line-height-base);
+      word-spacing: 0.15em;
+      white-space: nowrap; /* prevent text wrap */
+      min-width: max-content; /* ensure width fits content */
+      text-align: center; /* center the text within the grid square */
+    }
+
+    /* Social Icons styling */
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: var (--bg-terminal);
+      border: 1px solid var (--border-color);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+      border-color: var(--heading-color);
+      transform: translateY(-2px);
+    }
+    
+    .social-icon img {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0) invert(1); /* Make icons white */
+    }
+
+    /* New nav-controls positioning & styling */
+    .nav-controls {
+      display: flex;
+      gap: 0.2rem;
+    }
+
+    .nav-controls button {
+      background: transparent;
+      border: none;
+      color: var(--crt-green);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.2s, filter 0.2s;
+    }
+
+    .nav-controls button:hover {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 5px var(--crt-green));
+    }
+
+    .terminal-nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      flex: 1;
+    }
+
+    .global-nav {
+      position: fixed;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      z-index: 2000;
+    }
+    .global-nav button {
+      background: transparent;
+      border: none;
+      color: var(--crt-green);
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: opacity 0.3s, transform 0.2s, filter 0.2s;
+    }
+    .global-nav button:hover {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 5px var (--crt-green));
+    }
+
+    /* Updated skills-wrapper styling for vertical alignment */
+    .skills-wrapper {
+      max-width: calc(100% - 100px);
+      position: relative;
+      padding-top: 0; /* Removed extra top padding */
+    }
+    .skills-wrapper::before {
+      content: "> skills";
+      position: absolute;
+      left: calc(-1 * var(--content-gap));
+      top: 0;
+      color: var(--heading-color);
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    /* New styling for the skills section, mirroring the intro section */
+    .skills-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 8.7rem; /* Adjusted gap to match the intro section */
+      width: 100%;
+    }
+
+    .skills-label {
+      font-size: 0.9rem;
+      color: var(--heading-color);
+      white-space: nowrap;
+      align-self: flex-start;
+    }
+
+    .skills-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 0;  /* Remove extra space so vertical gaps are controlled solely by .bio-sections gap */
+    }
+
+    /* Define the skills grid similar to previous grid settings */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      width: 100%;
+    }
+
+    /* New styling for the resume section, mirroring the intro section */
+    .resume-container {
+      display: flex;
+      align-items: flex-start; /* Align both label and button container at the top */
+      gap: 8.7rem;           /* Match the gap used by the skills container for consistent spacing */
+      width: 100%;
+    }
+
+    .resume-label {
+      font-size: 0.9rem;
+      color: var(--heading-color);
+      white-space: nowrap;
+      /* No fixed width – allows natural sizing */
+    }
+
+    .resume-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 0;  /* Remove extra space so vertical gaps are controlled solely by .bio-sections gap */
+    }
+
+    /* New styling for the resume section, duplicating the skills section structure */
+.resume-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 8.7rem;  /* Same gap as the skills container; adjust if needed */
+  width: 100%;
+}
+
+.resume-label {
+  font-size: 0.9rem;
+  color: var (--heading-color);
+  white-space: nowrap;
+  align-self: flex-start;
+}
+
+.resume-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 0;  /* Remove extra bottom margin */
+}
+
+/* (Optional) Button styling – retain your existing styles or customize as needed */
+.resume-button {
+  background-color: var(--bg-terminal);
+  color: var(--heading-color);
+  font-family: var(--font-primary);
+  font-size: calc(var(--font-size-base) * 1.1);
+  border: 1px solid var(--heading-color);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.resume-button:hover {
+  background-color: var(--heading-color);
+  color: var(--bg-terminal);
+}
+
+.skills-label,
+.resume-label {
+  width: 5rem; /* adjust this value until both labels look aligned */
+}
+  </style>
+
+</head>
+<body>
+  <div class="crt"></div>
+  
+  <main class="hide-scrollbar">
+    <div class="container">
+      <!-- Header Section – Updated -->
+      <div class="header">
+        <div class="name-wrapper">
+          <h1>mitch ivin</h1>
+        </div>
+        <div class="intro-container">
+          <div class="intro-label">
+            &gt; intro
+          </div>
+          <div class="intro-content">
+            <div class="typing-container">
+              <span class="cursor">_</span>
+              <span class="code"><span class="typing-text"></span></span>
+            </div>
+            <p class="bio-text">
+              I approach challenges with a relaxed demeanor, driven by a passion for growth and a desire to constantly learn and improve.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Projects Section -->
+      <div class="projects">
+        <!-- Projects Terminal -->
+        <div class="terminal-container">
+          <div class="terminal-section">
+            <div class="terminal-header">
+              <div class="terminal-buttons">
+                <span class="h3">projects</span>
+              </div>
+              <div class="terminal-nav-bar">
+                <div class="terminal-title"></div>
+              </div>
+            </div>
+            <div class="terminal-content">
+              <div class="project-grid">
+                <div class="project-card">
+                  <img src="images/8.webp" alt="Project 1" />
+                </div>
+                <div class="project-card">
+                  <img src="images/7.webp" alt="Project 2" />
+                </div>
+                <div class="project-card">
+                  <img src="images/6.webp" alt="Project 3" />
+                </div>
+                <div class="project-card">
+                  <img src="images/5.webp" alt="Project 4" />
+                </div>
+                <div class="project-card">
+                  <img src="images/4.webp" alt="Project 5" />
+                </div>
+                <div class="project-card">
+                  <img src="images/3.webp" alt="Project 6" />
+                </div>
+                <div class="project-card">
+                  <img src="images/2.webp" alt="Project 7" />
+                </div>
+                <div class="project-card">
+                  <img src="images/1.webp" alt="Project 8" />
+                </div>
+              </div>
+            </div>
+            <div class="flicker"></div>
+          </div>
+        </div>
+
+        <!-- About Terminal -->
+        <div class="terminal-container">
+          <div class="terminal-section">
+            <div class="terminal-header">
+              <div class="terminal-buttons">
+                <span class="h3">about</span>
+              </div>
+              <div class="terminal-nav-bar">
+                <div class="terminal-title"></div>
+              </div>
+            </div>
+            <div class="terminal-content">
+              <div class="bio-sections">
+                <!-- Main bio text -->
+                <div class="bio-section">
+                  <p class="bio-text">I'm a graphic designer based in Brisbane, Australia, committed to continual growth and pushing my limits in the industry. I enjoy creating work that solves real problems and resonates with people, always striving to improve with each project.<br><br>Growing up in New Zealand, rugby played a big part in shaping who I am. It taught me confidence, built lasting friendships, and offered me an early outlet for creativity. Sport, particularly rugby, also gave me a firsthand look at the impact of design. In a country where the All Blacks' visual identity is everywhere, I saw how it fostered pride and unity; an influence that still shapes how I approach design today.<br><br>After rediscovering my passion for design over the course of my twenties, I decided to formalize my skills by completing QLD TAFE's Diploma of Graphic Design. This gave me a solid foundation in design principles and helped me refine my skills with tools like Adobe Creative Suite, allowing me to transform ideas into strong, visual concepts.<br><br>I'm particularly inspired by sports-related design work, where I can blend my passion for design with my love for sport. My long-term goal is to work with a major sports franchise, contributing to their brand and creative vision. For now, I'm focused on sharpening my skills and embracing any opportunity that challenges me to grow as a designer.</p>
+                </div>
+
+                <!-- Wrap skills grid with new skills-wrapper for subtitle -->
+                <div class="skills-container">
+                  <div class="skills-label">
+                    &gt; skills
+                  </div>
+                  <div class="skills-content">
+                    <div class="skills-grid">
+                      <div class="skill-item">Social Graphics</div>
+                      <div class="skill-item">Web Design</div>
+                      <div class="skill-item">Video Production</div>
+                      <div class="skill-item">Print Design</div>
+                      <div class="skill-item">3D Modelling</div>
+                      <div class="skill-item">Motion Graphics</div>
+                      <div class="skill-item">Content Strategy</div>
+                      <div class="skill-item">Detail-Oriented</div>
+                      <div class="skill-item">Problem Solver</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Resume button remains unchanged -->
+                <div class="resume-container">
+                  <div class="resume-label">
+                    &gt; resume
+                  </div>
+                  <div class="resume-content">
+                    <div class="button-container">
+                      <button class="resume-button">Download Resume</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flicker"></div>
+          </div>
+        </div>
+
+        <!-- Contact Terminal -->
+        <div class="terminal-container">
+          <div class="terminal-section">
+            <div class="terminal-header">
+              <div class="terminal-buttons">
+                <span class="h3">contact</span>
+              </div>
+              <div class="terminal-nav-bar">
+                <div class="terminal-title"></div>
+              </div>
+            </div>
+            <div class="terminal-content">
+              <!-- Wrap content in bio-sections for consistent styling with About terminal -->
+              <div class="bio-sections">
+                <div class="bio-section">
+                  <p class="bio-text">I'm eager to take the next step in my career with a team where I can contribute and continue to grow as a designer. If you think I'd be a great fit,<br><br>feel free to get in touch!</p>
+                </div>
+                
+                <!-- Button in container -->
+                <div class="button-container">
+                  <button class="email-button">Email Me</button>
+                </div>
+                
+                <!-- Add social icons -->
+                <div class="social-icons">
+                  <a href="https://linkedin.com" target="_blank" class="social-icon">
+                    <img src="images/linkedin.svg" alt="LinkedIn" />
+                  </a>
+                  <a href="https://github.com" target="_blank" class="social-icon">
+                    <img src="images/github.svg" alt="GitHub" />
+                  </a>
+                  <a href="https://instagram.com" target="_blank" class="social-icon">
+                    <img src="images/instagram.svg" alt="Instagram" />
+                  </a>
+                  <a href="https://behance.net" target="_blank" class="social-icon">
+                    <img src="images/behance.svg" alt="Behance" />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="flicker"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Global Navigation (fixed at bottom left) -->
+  <div class="global-nav">
+    <button id="global-nav-up">▲</button>
+    <button id="global-nav-down">▼</button>
+  </div>
+
+  <!-- Lightbox for Projects -->
+  <div class="lightbox">
+    <button class="lightbox-close">&times;</button>
+    <div class="lightbox-content">
+      <div class="lightbox-image">
+        <img src="" alt="Project detail">
+      </div>
+      <div class="lightbox-info">
+        <h3 class="lightbox-title"></h3>
+        <p class="lightbox-description"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Typing animation setup
+  const typingElement = document.querySelector('.typing-text'),
+        cursor = document.querySelector('.cursor'),
+        emailButton = document.querySelector('.email-button'),
+        emailAddress = 'mitch.ivin@gmail.com',
+        TIMING = { typing: 100, erasing: 100, pauseAfterName: 1500, pauseAfterComplete: 1200, pauseAfterDesigner: 1500, newPhrase: 1000 },
+        phrases = [
+          { text: "Hi, I'm Mitch!", middle: " I'm a ", role: "graphic designer." },
+          { text: "Hi, I'm Mitch!", middle: " I'm a ", role: "problem solver." },
+          { text: "Hi, I'm Mitch!", middle: " I'm a ", role: "sports enthusiast." },
+          { text: "Hi, I'm Mitch!", middle: " I'm a ", role: "dreamer." }
+        ];
+  let phraseIndex = 0, charIndex = 0, currentState = "prefix";
+  
+  function animateTyping() {
+    const { text, middle, role } = phrases[phraseIndex];
+    switch (currentState) {
+      case "prefix":
+        if (charIndex < text.length) {
+          typingElement.textContent = text.substring(0, ++charIndex);
+          cursor.style.transform = `translateX(${typingElement.offsetWidth}px)`;
+          setTimeout(animateTyping, TIMING.typing);
+        } else {
+          currentState = "middle"; charIndex = 0;
+          setTimeout(animateTyping, TIMING.pauseAfterName);
+        }
+        break;
+      case "middle":
+        if (charIndex < middle.length) {
+          typingElement.innerHTML = text + middle.substring(0, ++charIndex);
+          cursor.style.transform = `translateX(${typingElement.offsetWidth}px)`;
+          setTimeout(animateTyping, TIMING.typing);
+        } else {
+          currentState = "role"; charIndex = 0;
+          animateTyping();
+        }
+        break;
+      case "role":
+        if (charIndex < role.length) {
+          typingElement.innerHTML = text + middle + `<span class="highlight">${role.substring(0, ++charIndex)}</span>`;
+          cursor.style.transform = `translateX(${typingElement.offsetWidth}px)`;
+          setTimeout(animateTyping, TIMING.typing);
+        } else {
+          currentState = "deleting";
+          setTimeout(animateTyping, (role === "graphic designer." ? TIMING.pauseAfterDesigner : TIMING.pauseAfterComplete));
+        }
+        break;
+      case "deleting":
+        if (charIndex > 0) {
+          typingElement.innerHTML = text + middle + `<span class="highlight">${role.substring(0, --charIndex)}</span>`;
+          cursor.style.transform = `translateX(${typingElement.offsetWidth}px)`;
+          setTimeout(animateTyping, TIMING.erasing);
+        } else {
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          currentState = "role";
+          setTimeout(animateTyping, TIMING.newPhrase);
+        }
+        break;
+    }
+  }
+  
+  // Email button functionality
+  emailButton.addEventListener('mouseenter', () => emailButton.textContent = emailAddress);
+  emailButton.addEventListener('mouseleave', () => { if (emailButton.textContent !== 'Copied!') emailButton.textContent = 'Email Me'; });
+  emailButton.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(emailAddress);
+      emailButton.textContent = 'Copied!';
+      setTimeout(() => emailButton.textContent = 'Email Me', 3000);
+    } catch (err) {
+      console.error('Clipboard copy failed:', err);
+    }
+  });
+
+  // Lightbox functionality
+  const lightbox = document.querySelector('.lightbox'),
+        lightboxImage = lightbox.querySelector('.lightbox-image img'),
+        lightboxTitle = lightbox.querySelector('.lightbox-title'),
+        lightboxDescription = lightbox.querySelector('.lightbox-description'),
+        lightboxClose = lightbox.querySelector('.lightbox-close'),
+        projectData = [
+          { title: "Brand Identity Project", description: "A comprehensive brand identity system focusing on modern, minimal design principles. Created using Adobe Illustrator and Photoshop." }
+        ];
+  document.querySelectorAll('.project-card').forEach((card, index) => {
+    const img = card.querySelector('img');
+    card.addEventListener('click', () => {
+      lightboxImage.src = img.src;
+      lightboxTitle.textContent = projectData[index]?.title || 'Project Details';
+      lightboxDescription.textContent = projectData[index]?.description || 'Project description coming soon.';
+      lightbox.classList.add('active');
+    });
+  });
+  lightboxClose.addEventListener('click', () => lightbox.classList.remove('active'));
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.classList.remove('active'); });
+
+  // Global Navigation Controls
+  const SCROLL_OFFSET = 40,
+        terminals = Array.from(document.querySelectorAll('.terminal-container')),
+        globalNavUp = document.getElementById('global-nav-up'),
+        globalNavDown = document.getElementById('global-nav-down');
+
+  // Determines the current terminal index by finding the first terminal whose top exceeds (scrollY + SCROLL_OFFSET),
+  // then returns 0 if at the very top, otherwise (foundIndex - 1) so that up arrow from contact goes to about.
+  function getCurrentTerminalIndex() {
+    const idx = terminals.findIndex(term => window.scrollY < term.offsetTop - SCROLL_OFFSET);
+    return idx === -1 ? terminals.length - 1 : (idx === 0 ? 0 : idx - 1);
+  }
+
+  function updateNavVisibility() {
+    if (window.scrollY === 0) {
+      globalNavUp.style.opacity = '0';
+      globalNavUp.style.pointerEvents = 'none';
+    } else {
+      globalNavUp.style.opacity = '1';
+      globalNavUp.style.pointerEvents = 'auto';
+    }
+    const atBottom = window.scrollY >= document.body.scrollHeight - window.innerHeight;
+    if (atBottom) {
+      globalNavDown.style.opacity = '0';
+      globalNavDown.style.pointerEvents = 'none';
+    } else {
+      globalNavDown.style.opacity = '1';
+      globalNavDown.style.pointerEvents = 'auto';
+    }
+  }
+
+  globalNavUp.addEventListener('click', () => {
+    const i = getCurrentTerminalIndex();
+    window.scrollTo({ 
+      top: i === 0 ? 0 : terminals[i - 1].offsetTop - SCROLL_OFFSET, 
+      behavior: 'smooth' 
+    });
+  });
+
+  globalNavDown.addEventListener('click', () => {
+    const i = getCurrentTerminalIndex();
+    window.scrollTo({
+      top: i === terminals.length - 1 ? document.body.scrollHeight - window.innerHeight : terminals[i + 1].offsetTop - SCROLL_OFFSET,
+      behavior: 'smooth'
+    });
+  });
+
+  window.addEventListener('scroll', updateNavVisibility);
+  updateNavVisibility();
+
+  // Initialize typing animation
+  typingElement.textContent = '';
+  setTimeout(animateTyping, 500);
+});
+</script>
+</body>
+</html>
